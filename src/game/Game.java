@@ -1,15 +1,24 @@
 package game;
 
+import inputs.KeyboardInputs;
 import player.Player;
+
+
 
 public class Game implements Runnable {
     private Thread gameThread;
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
     private Player player;
+    private GamePanel gamePanel;
+    private KeyboardInputs keyboardInputs;
+    private GameWindow gameWindow;
 
     public Game() {
         init();
+        gamePanel = new GamePanel(this,player);
+        gameWindow = new GameWindow(gamePanel);
+        gamePanel.requestFocus();
         startLoop();
     }
 
@@ -60,5 +69,15 @@ public class Game implements Runnable {
             }
 
         }
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    private void update() {
+
+        player.update();
+
     }
 }
