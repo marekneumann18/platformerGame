@@ -21,23 +21,52 @@ public class Player {
     }
 
     private void loadPlayer() {
-        img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_IMAGE);
+        img = removeBackground(LoadSave.GetSpriteAtlas(LoadSave.PLAYER_IMAGE));
     }
 
-    public void render(Graphics g){
-        g.drawImage(img,200,200,null);
+    private BufferedImage removeBackground(BufferedImage source) {
+        BufferedImage result = new BufferedImage(source.getWidth(), source.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+        for (int y = 0; y < source.getHeight(); y++) {
+            for (int x = 0; x < source.getWidth(); x++) {
+                int rgb = source.getRGB(x, y);
+                int red = (rgb >> 16) & 0xff;
+                int green = (rgb >> 8) & 0xff;
+                int blue = rgb & 0xff;
+
+                if (isGrayBackground(red, green, blue)) {
+                    result.setRGB(x, y, 0);
+                } else {
+                    result.setRGB(x, y, 0xff000000 | (rgb & 0x00ffffff));
+                }
+            }
+        }
+
+        return result;
     }
-    public void update(){
+
+    private boolean isGrayBackground(int red, int green, int blue) {
+        int max = Math.max(red, Math.max(green, blue));
+        int min = Math.min(red, Math.min(green, blue));
+
+        return max - min < 20 && red > 120 && green > 120 && blue > 120;
+    }
+
+    public void render(Graphics g) {
+        g.drawImage(img, (int) x, (int) y, width, height, null);
+    }
+
+    public void update() {
         updateMoving();
     }
-    private void updateMoving(){
+
+    private void updateMoving() {
         float xSpeed = 0;
         if (left)
             xSpeed -= playerSpeed;
         else if (right)
             xSpeed += playerSpeed;
     }
-
 
     public void setLeft(boolean left) {
         this.left = left;

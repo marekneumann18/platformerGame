@@ -19,11 +19,20 @@ public class GamePanel extends JPanel {
         addKeyListener(new KeyboardInputs(this));
     }
     private void setPanelSize() {
-        Dimension size = new Dimension(400,400);
+        Dimension size = new Dimension(600,600);
 
         setPreferredSize(size);
 
 
+
+    }
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+//        updateRectangle();
+//        g.setColor(color);
+//        g.fillRect((int) xDelta, (int) yDelta, 200, 50);
+//        repaint();
+        game.render(g);
 
     }
 
