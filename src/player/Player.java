@@ -63,9 +63,9 @@ public class Player {
     private void updateMoving() {
         float xSpeed = 0;
         if (left)
-            xSpeed -= playerSpeed;
+            x -= playerSpeed;
         else if (right)
-            xSpeed += playerSpeed;
+            x += playerSpeed;
     }
 
     public void setLeft(boolean left) {
