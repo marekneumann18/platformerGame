@@ -23,6 +23,7 @@ public class KeyboardInputs implements KeyListener {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_A:
                 gamePanel.getGame().getPlayer().setLeft(true);
+                System.out.println(3);
                 break;
             case KeyEvent.VK_D:
                 gamePanel.getGame().getPlayer().setRight(true);

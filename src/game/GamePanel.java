@@ -16,10 +16,12 @@ public class GamePanel extends JPanel {
         this.player = player;
         this.game = game;
         setPanelSize();
+        setFocusable(true);
+        requestFocusInWindow();
         addKeyListener(new KeyboardInputs(this));
     }
     private void setPanelSize() {
-        Dimension size = new Dimension(600,600);
+        Dimension size = new Dimension(Game.GAME_WIDTH,Game.GAME_HEIGHT);
 
         setPreferredSize(size);
 

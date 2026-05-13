@@ -1,9 +1,11 @@
 package player;
 
+import game.Game;
 import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.sql.SQLOutput;
 
 public class Player {
     protected float x, y;
@@ -62,10 +64,20 @@ public class Player {
 
     private void updateMoving() {
         float xSpeed = 0;
-        if (left)
+        if (left) {
+
             x -= playerSpeed;
-        else if (right)
+            System.out.println(x);
+            if (x < 0) {
+                x = 0;
+            }
+        } else if (right) {
             x += playerSpeed;
+            System.out.println(x);
+            if (x + width+2 > Game.GAME_WIDTH) {
+                x = Game.GAME_WIDTH-width;
+            }
+        }
     }
 
     public void setLeft(boolean left) {
