@@ -1,5 +1,8 @@
 package game;
 
+import gamestate.Gamestate;
+import gamestate.Menu;
+import gamestate.Playing;
 import inputs.KeyboardInputs;
 import player.Player;
 
@@ -10,8 +13,8 @@ public class Game implements Runnable {
     private Thread gameThread;
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
-    private Player player;
     private GamePanel gamePanel;
+    private Player player;
     private KeyboardInputs keyboardInputs;
     private GameWindow gameWindow;
     public final static int TILES_DEFAULT_SIZE = 32;
@@ -21,6 +24,8 @@ public class Game implements Runnable {
     public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+    private Menu menu;
+    private Playing playing;
 
     public Game() {
         init();
@@ -31,7 +36,9 @@ public class Game implements Runnable {
     }
 
     public void init() {
-        player = new Player(200, 200, 50, 50);
+        menu =new Menu(this);
+        playing = new Playing(this);
+
     }
 
     public void startLoop() {
@@ -84,14 +91,34 @@ public class Game implements Runnable {
     }
 
 
+    public void update() {
+        switch (Gamestate.state) {
+            case PLAYING -> {
+                playing.update();
+            }
+            case MENU -> {
+                menu.update();
+            }
 
-  public   void update() {
-
-        player.update();
-
+        }
     }
-    public void render(Graphics g){
-        player.render(g);
+
+    public void render(Graphics g) {
+        switch (Gamestate.state) {
+            case PLAYING -> {
+                playing.draw(g);
+            }
+            case MENU -> {
+                menu.draw(g);
+            }
+        }
     }
 
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public Playing getPlaying() {
+        return playing;
+    }
 }

@@ -8,7 +8,7 @@ import java.io.InputStream;
 public class LoadSave {
     public static final String PLAYER_IMAGE = "cartoon_eid_chocolate_box_5.jpg";
     public static final String LEVEL_ATLAS = "";
-    public static final String LEVEL_ONE_DATA = "";
+    public static final String BUTTON_ATLAS = "button_atlas.png";
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
         BufferedImage img = null;
