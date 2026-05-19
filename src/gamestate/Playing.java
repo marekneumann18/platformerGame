@@ -23,7 +23,7 @@ public class Playing extends State implements StateMethods{
 
     @Override
     public void update() {
-
+        player.update();
     }
 
     @Override
