@@ -7,13 +7,15 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class Playing extends State implements StateMethods{
+public class Playing extends State implements StateMethods {
     private Player player;
+
     public Playing(Game game) {
         super(game);
         init();
     }
-    public void init(){
+
+    public void init() {
         player = new Player(200, 200, 50, 50);
     }
 
@@ -23,7 +25,7 @@ public class Playing extends State implements StateMethods{
 
     @Override
     public void update() {
-
+        player.update();
     }
 
     @Override
@@ -61,7 +63,9 @@ public class Playing extends State implements StateMethods{
             case KeyEvent.VK_D:
                 player.setRight(true);
                 break;
-
+            case KeyEvent.VK_ESCAPE:
+                Gamestate.state = Gamestate.MENU;
+                break;
         }
     }
 

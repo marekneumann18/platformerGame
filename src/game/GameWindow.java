@@ -17,4 +17,11 @@ public class GameWindow {
         jFrame.setVisible(true);
 
     }
+
+
+    public void close() {
+        if (jFrame != null) {
+            jFrame.dispose();
+        }
+    }
 }
