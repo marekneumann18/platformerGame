@@ -9,6 +9,7 @@ import player.Player;
 import utilz.LoadSave;
 
 import java.awt.*;
+import java.util.Timer;
 
 
 public class Game implements Runnable {
@@ -27,9 +28,13 @@ public class Game implements Runnable {
     public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+    public final static int WORLD_TILES_HEIGHT = 42;
+    public final static int WORLD_HEIGHT = TILES_SIZE * WORLD_TILES_HEIGHT;
     private Menu menu;
     private Playing playing;
     private Options options;
+
+
 
     public Game() {
         init();
@@ -97,6 +102,7 @@ public class Game implements Runnable {
     public Player getPlayer() {
         return player;
     }
+
 
 
     public void update() {

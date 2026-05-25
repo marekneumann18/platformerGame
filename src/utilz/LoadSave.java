@@ -3,6 +3,7 @@ package utilz;
 import game.Game;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
@@ -35,6 +36,23 @@ public class LoadSave {
         }
         return img;
     }
+    public static int[][] GetLevelData() {
+        int[][] lvlData = new int[Game.WORLD_TILES_HEIGHT][Game.TILES_IN_WIDTH];
+        BufferedImage img = GetSpriteAtlas(LEVEL_ATLAS);
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getRed();
+                if (value>=48){
+                    value= 0;
+                }
+                lvlData[j][i] = value;
+            }
+
+
+        }
+        return lvlData;
+    }
 
     /**
      * Uloží FPS a UPS nastavení do souboru
@@ -48,7 +66,6 @@ public class LoadSave {
                 Files.createDirectories(configDirPath);
             }
 
-            // Vytvoř a opiš objekt GameConfig
             GameConfig config = new GameConfig(game.getFPS(), game.getUPS());
             
             // Serializuj objekt do souboru
