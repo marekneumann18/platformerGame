@@ -1,9 +1,9 @@
 package player;
 
 import game.Game;
-
 import java.awt.*;
-import java.awt.image.BufferedImage;
+
+import static game.LevelManager.IsSolid;
 
 public class Player {
     protected float x, y;
@@ -12,7 +12,7 @@ public class Player {
     private boolean left, right;
     private float playerSpeed = 2.0f;
     private Color playerColor = Color.BLACK;
-    private float gravity = 0.5f;
+    private float gravity = 0.4f;
     private float velocityY = 0;
     private boolean inAir = false;
     private int jumpSpeed = -12;
@@ -57,24 +57,35 @@ public class Player {
     }
 
 
-    public void render(Graphics g) {
+    public void render(Graphics g, int yLvlOffset) {
         g.setColor(playerColor);
-        g.fillRect((int) x, (int) y, width, height);
+        g.fillRect((int) x, (int) y - yLvlOffset, width, height);
 
     }
 
-    public void update() {
+    public void update(int[][] lvlData) {
         updateMoving();
-        updateJumping();
+        updateJumping(lvlData);
     }
 
-    public void updateJumping() {
+    public void updateJumping(int[][] lvlData) {
         jump();
         if (inAir) {
             velocityY += gravity;
-            y += velocityY;
-            if (y + height >= Game.GAME_HEIGHT) {
-                y = Game.GAME_HEIGHT - height;
+            float nextY = y + velocityY;
+
+            if (velocityY > 0 && isOnPlatform(nextY, lvlData)) {
+                int tileY = (int) ((nextY + height) / Game.TILES_SIZE);
+                y = tileY * Game.TILES_SIZE - height;
+                inAir = false;
+                velocityY = 0;
+                return;
+            }
+
+            y = nextY;
+
+            if (y + height >= Game.WORLD_HEIGHT) {
+                y = Game.WORLD_HEIGHT - height;
                 inAir = false;
                 velocityY = 0;
             }
@@ -89,18 +100,22 @@ public class Player {
         }
     }
 
+    private boolean isOnPlatform(float nextY, int[][] lvlData) {
+        float feetY = nextY + height;
+        return IsSolid(x, feetY, lvlData)
+                || IsSolid(x + width - 1, feetY, lvlData);
+    }
+
     private void updateMoving() {
-        float xSpeed = 0;
+
         if (left) {
 
             x -= playerSpeed;
-            System.out.println(x);
             if (x < 0) {
                 x = 0;
             }
         } else if (right) {
             x += playerSpeed;
-            System.out.println(x);
             if (x + width + 2 > Game.GAME_WIDTH) {
                 x = Game.GAME_WIDTH - width;
             }
@@ -113,6 +128,10 @@ public class Player {
 
     public void setRight(boolean right) {
         this.right = right;
+    }
+
+    public float getY() {
+        return y;
     }
 }
 

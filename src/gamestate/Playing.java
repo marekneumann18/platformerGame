@@ -1,6 +1,7 @@
 package gamestate;
 
 import game.Game;
+import game.LevelManager;
 import player.Player;
 
 import java.awt.*;
@@ -9,6 +10,9 @@ import java.awt.event.MouseEvent;
 
 public class Playing extends State implements StateMethods {
     private Player player;
+    private LevelManager levelManager;
+    private int yLvlOffset;
+    private int maxYOffset;
 
     public Playing(Game game) {
         super(game);
@@ -16,7 +20,9 @@ public class Playing extends State implements StateMethods {
     }
 
     public void init() {
-        player = new Player(200, 200, 50, 50);
+        player = new Player(400, 600, 50, 50);
+        levelManager = new LevelManager();
+        maxYOffset = Game.WORLD_HEIGHT - Game.GAME_HEIGHT;
     }
 
     public Player getPlayer() {
@@ -25,12 +31,14 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void update() {
-        player.update();
+        player.update(levelManager.getLevelData());
+        updateCamera();
     }
 
     @Override
     public void draw(Graphics g) {
-        player.render(g);
+        levelManager.draw(g, yLvlOffset);
+        player.render(g, yLvlOffset);
 
     }
 
@@ -63,6 +71,10 @@ public class Playing extends State implements StateMethods {
             case KeyEvent.VK_D:
                 player.setRight(true);
                 break;
+            case KeyEvent.VK_SPACE:
+            case KeyEvent.VK_W:
+                player.jump();
+                break;
             case KeyEvent.VK_ESCAPE:
                 Gamestate.state = Gamestate.MENU;
                 break;
@@ -79,6 +91,16 @@ public class Playing extends State implements StateMethods {
                 player.setRight(false);
                 break;
 
+        }
+    }
+
+    private void updateCamera() {
+        yLvlOffset = (int) (player.getY() - Game.GAME_HEIGHT / 2);
+
+        if (yLvlOffset < 0) {
+            yLvlOffset = 0;
+        } else if (yLvlOffset > maxYOffset) {
+            yLvlOffset = maxYOffset;
         }
     }
 }

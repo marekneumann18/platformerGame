@@ -36,23 +36,8 @@ public class LoadSave {
         }
         return img;
     }
-    public static int[][] GetLevelData() {
-        int[][] lvlData = new int[Game.WORLD_TILES_HEIGHT][Game.TILES_IN_WIDTH];
-        BufferedImage img = GetSpriteAtlas(LEVEL_ATLAS);
-        for (int j = 0; j < img.getHeight(); j++) {
-            for (int i = 0; i < img.getWidth(); i++) {
-                Color color = new Color(img.getRGB(i, j));
-                int value = color.getRed();
-                if (value>=48){
-                    value= 0;
-                }
-                lvlData[j][i] = value;
-            }
 
 
-        }
-        return lvlData;
-    }
 
     /**
      * Uloží FPS a UPS nastavení do souboru
@@ -60,15 +45,13 @@ public class LoadSave {
      */
     public static void saveConfig(Game game) {
         try {
-            // Vytvor složku, pokud neexistuje
             Path configDirPath = Paths.get(CONFIG_DIR);
             if (!Files.exists(configDirPath)) {
                 Files.createDirectories(configDirPath);
             }
 
             GameConfig config = new GameConfig(game.getFPS(), game.getUPS());
-            
-            // Serializuj objekt do souboru
+
             try (ObjectOutputStream oos = new ObjectOutputStream(
                     new FileOutputStream(CONFIG_FILE))) {
                 oos.writeObject(config);
