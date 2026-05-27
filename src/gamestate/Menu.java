@@ -1,6 +1,5 @@
 package gamestate;
 
-import gamestate.Gamestate;
 import game.Game;
 import ui.MenuButton;
 
@@ -49,8 +48,8 @@ public class Menu extends State implements StateMethods {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        for (MenuButton mb : buttons){
-            if (isIN(e,mb))
+        for (MenuButton mb : buttons) {
+            if (isIN(e, mb))
                 mb.setMousePressed(true);
 
         }
@@ -64,10 +63,13 @@ public class Menu extends State implements StateMethods {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        for (MenuButton mb : buttons){
-            if (isIN(e,mb)){
+        for (MenuButton mb : buttons) {
+            if (isIN(e, mb)) {
                 if (mb.isMousePressed())
                     mb.apllyGameState();
+                if (Gamestate.state == Gamestate.PLAYING) {
+                    game.getPlaying().startTimer();
+                }
                 break;
             }
         }
@@ -80,7 +82,7 @@ public class Menu extends State implements StateMethods {
             mb.setMouseOver(false);
 
         for (MenuButton mb : buttons)
-            if (isIN(e,mb)) {
+            if (isIN(e, mb)) {
                 mb.setMouseOver(true);
                 break;
             }
@@ -90,8 +92,10 @@ public class Menu extends State implements StateMethods {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER)
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            game.getPlaying().startTimer();
             Gamestate.state = Gamestate.PLAYING;
+        }
 
 
     }

@@ -89,21 +89,26 @@ public class Game implements Runnable {
 
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS: " + frames + "| UPS: " + updates);
+                //System.out.println("FPS: " + frames + "| UPS: " + updates);
                 frames = 0;
                 updates = 0;
             }
 
         }
-        // Po ukončení hlavní smyčky ukončíme JVM, aby se proces opravdu zastavil
-        System.exit(0);
+
     }
 
     public Player getPlayer() {
         return player;
     }
 
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
 
+    public boolean isRunning() {
+        return running;
+    }
 
     public void update() {
         switch (Gamestate.state) {
