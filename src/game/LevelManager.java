@@ -60,6 +60,7 @@ public class LevelManager {
                 }
             }
         }
+
     }
 
     public int[][] getLevelData() {

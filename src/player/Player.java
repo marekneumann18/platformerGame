@@ -1,6 +1,7 @@
 package player;
 
 import game.Game;
+import gamestate.Gamestate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -76,8 +77,10 @@ public class Player {
             updateMoving(lvlData);
             updateJumping(lvlData);
         } else {
-            game.setRunning(false);
+
             game.getPlaying().endTimer();
+            Gamestate.state = Gamestate.WICTORY;
+            //game.setRunning(false);
         }
 
 

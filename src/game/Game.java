@@ -1,9 +1,7 @@
 package game;
 
-import gamestate.Gamestate;
+import gamestate.*;
 import gamestate.Menu;
-import gamestate.Options;
-import gamestate.Playing;
 import inputs.KeyboardInputs;
 import player.Player;
 import utilz.LoadSave;
@@ -14,8 +12,8 @@ import java.util.Timer;
 
 public class Game implements Runnable {
     private Thread gameThread;
-    private  int FPS_SET = 120;
-    private  int UPS_SET = 200;
+    private int FPS_SET = 120;
+    private int UPS_SET = 200;
     private GamePanel gamePanel;
     private Player player;
     private KeyboardInputs keyboardInputs;
@@ -33,7 +31,7 @@ public class Game implements Runnable {
     private Menu menu;
     private Playing playing;
     private Options options;
-
+    private WictoryWindow wictoryWindow;
 
 
     public Game() {
@@ -48,6 +46,7 @@ public class Game implements Runnable {
         menu = new Menu(this);
         playing = new Playing(this);
         options = new Options(this);
+        wictoryWindow = new WictoryWindow(this);
         LoadSave.loadConfig(this);
 
     }
@@ -127,6 +126,10 @@ public class Game implements Runnable {
             case OPTIONS -> {
                 options.update();
             }
+            case WICTORY -> {
+                wictoryWindow.update();
+            }
+
 
         }
     }
@@ -136,12 +139,17 @@ public class Game implements Runnable {
         switch (Gamestate.state) {
             case PLAYING -> {
                 playing.draw(g);
+                if (Gamestate.state == Gamestate.WICTORY)
+                    wictoryWindow.update();
             }
             case MENU -> {
                 menu.draw(g);
             }
             case OPTIONS -> {
                 options.draw(g);
+            }
+            case WICTORY -> {
+                playing.draw(g);
             }
         }
     }
@@ -170,5 +178,12 @@ public class Game implements Runnable {
 
     public Playing getPlaying() {
         return playing;
+    }
+
+    public void restartGame() {
+        playing.resetGame();
+        wictoryWindow.reset();
+        Gamestate.state = Gamestate.MENU;
+        playing.startTimer();
     }
 }
