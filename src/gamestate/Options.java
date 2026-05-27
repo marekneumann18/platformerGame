@@ -35,12 +35,11 @@ public class Options extends State implements StateMethods {
 
 
         JPanel center = new JPanel();
-        // Rozvržení pro nastavení: sloupce (label, ovládací prvek) a libovolný počet řádků
         center.setLayout(new GridLayout(0, 2, 8, 8));
         panel.add(center, BorderLayout.CENTER);
 
         JLabel ups = new JLabel("UPS: ");
-        JComboBox<Integer> upsChanger = new JComboBox<>(new Integer[]{30, 60, 120, 144,200, 240});
+        JComboBox<Integer> upsChanger = new JComboBox<>(new Integer[]{30, 60, 120, 144,200, 240,5000});
         upsChanger.setSelectedItem(getGame().getUPS());
         upsChanger.addActionListener(e -> {
                     int selectedUPS = (Integer) upsChanger.getSelectedItem();
@@ -54,11 +53,18 @@ public class Options extends State implements StateMethods {
             getGame().setFPS_SET(selectedFPS);
         });
         JLabel playerColor = new JLabel("Barva hráče: ");
-        JComboBox<String>playerChangerColor = new JComboBox<>(new String[]{"red", "green", "blue", "yellow",     "orange"});
+        JComboBox<String>playerChangerColor = new JComboBox<>(new String[]{"red", "green", "blue", "yellow","orange"});
         playerChangerColor.setSelectedItem(getGame().getPlaying().getPlayer().getPlayerColor());
         playerChangerColor.addActionListener(e -> {
             Color c = getGame().getPlaying().getPlayer().getPlayerColor();
             getGame().getPlaying().getPlayer().setColor((String) playerChangerColor.getSelectedItem());
+        });
+        JLabel autojump = new JLabel("Autojump: ");
+        JComboBox<Boolean> autojumpChanger = new JComboBox<>(new Boolean[]{true, false});
+        autojumpChanger.setSelectedItem(getGame().getPlaying().getPlayer().isAutojump());
+        autojumpChanger.addActionListener(e -> {
+            getGame().getPlaying().getPlayer().setAutojump((boolean) autojumpChanger.getSelectedItem());
+
         });
 
         center.add(ups);
@@ -67,7 +73,8 @@ public class Options extends State implements StateMethods {
         center.add(fpsChanger);
         center.add(playerColor);
         center.add(playerChangerColor);
-        //center.add(fps, BorderLayout.EAST);
+        center.add(autojump);
+        center.add(autojumpChanger);
         JButton closeBtn = new JButton("Zavřít");
         closeBtn.addActionListener(e -> {
             optionsFrame.dispose();
@@ -80,7 +87,6 @@ public class Options extends State implements StateMethods {
 
         optionsFrame.setContentPane(panel);
 
-        // Pokud uživatel zavře okno křížkem, přepneme stav zpět na MENU
         optionsFrame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
@@ -99,7 +105,6 @@ public class Options extends State implements StateMethods {
 
     @Override
     public void draw(Graphics g) {
-        // GUI nastavení běží v samostatném JFrame, tady nic nekreslíme
     }
 
     @Override
