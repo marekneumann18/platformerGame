@@ -2,6 +2,7 @@ package player;
 
 import game.Game;
 import gamestate.Gamestate;
+import utilz.LoadSave;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,11 @@ import java.awt.event.ActionListener;
 import static game.LevelManager.IsOnFloor;
 import static game.LevelManager.IsSolid;
 
+/**
+ * Represents the player character.
+ *
+ * @author Marek
+ */
 public class Player {
     protected float x, y;
     protected int width, height;
@@ -66,29 +72,43 @@ public class Player {
     }
 
 
+    /**
+     * Renders the player as a colored rectangle.
+     */
     public void render(Graphics g, int yLvlOffset) {
         g.setColor(playerColor);
         g.fillRect((int) x, (int) y - yLvlOffset, width, height);
 
     }
 
+    /**
+     * Updates movement and checks for victory.
+     */
     public void update(int[][] lvlData, Game game) {
         if (!isOnLastPlatform(x, y, lvlData)) {
             updateMoving(lvlData);
             updateJumping(lvlData);
         } else {
+            wictory(game);
 
-            game.getPlaying().endTimer();
-            Gamestate.state = Gamestate.WICTORY;
-            //game.setRunning(false);
         }
 
 
     }
 
+    /**
+     * Finishes the run and switches to the victory state.
+     */
+    public void wictory(Game game) {
+        game.getPlaying().endTimer();
+        LoadSave.saveWictoryTime(game.getPlaying().getTotalSeconds());
+        Gamestate.state = Gamestate.WICTORY;
+    }
 
 
-
+    /**
+     * Applies gravity and handles landing on platforms.
+     */
     public void updateJumping(int[][] lvlData) {
         if (autojump)
             jump();
@@ -116,6 +136,9 @@ public class Player {
 
     }
 
+    /**
+     * Starts a jump when the player is on the ground.
+     */
     public void jump() {
         if (!inAir) {
             inAir = true;
@@ -123,12 +146,18 @@ public class Player {
         }
     }
 
+    /**
+     * Checks whether the player is standing on solid ground at the next Y position.
+     */
     private boolean isOnPlatform(float nextY, int[][] lvlData) {
         float feetY = nextY + height;
         return IsSolid(x, feetY, lvlData)
                 || IsSolid(x + width - 1, feetY, lvlData);
     }
 
+    /**
+     * Moves the player left or right and keeps the player inside the screen.
+     */
     private void updateMoving(int[][] lvlData) {
 
         if (left) {
@@ -147,6 +176,9 @@ public class Player {
         }
     }
 
+    /**
+     * Checks whether the player reached the last platform.
+     */
     private boolean isOnLastPlatform(float x, float y, int[][] lvlData) {
         if (y == 46 && IsOnFloor(x, y, width, height, lvlData)) {
             return true;

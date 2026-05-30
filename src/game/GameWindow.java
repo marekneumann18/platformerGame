@@ -2,6 +2,11 @@ package game;
 
 import javax.swing.*;
 
+/**
+ * Main window that hosts the game panel.
+ *
+ * @author Marek
+ */
 public class GameWindow {
     private JFrame jFrame;
 
@@ -19,6 +24,9 @@ public class GameWindow {
     }
 
 
+    /**
+     * Closes the main window.
+     */
     public void close() {
         if (jFrame != null) {
             jFrame.dispose();

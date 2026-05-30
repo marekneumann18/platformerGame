@@ -7,6 +7,11 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+/**
+ * Options state for game settings.
+ *
+ * @author Marek
+ */
 public class Options extends State implements StateMethods {
     private JFrame optionsFrame;
 
@@ -15,6 +20,9 @@ public class Options extends State implements StateMethods {
     }
 
 
+    /**
+     * Opens the options window if it is not already visible.
+     */
     private void showOptionsWindow() {
         if (optionsFrame != null && optionsFrame.isDisplayable()) {
             optionsFrame.toFront();
@@ -88,6 +96,9 @@ public class Options extends State implements StateMethods {
         optionsFrame.setContentPane(panel);
 
         optionsFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            /**
+             * Returns to the menu when the options window closes.
+             */
             @Override
             public void windowClosed(java.awt.event.WindowEvent e) {
                 Gamestate.state = Gamestate.MENU;
@@ -98,6 +109,9 @@ public class Options extends State implements StateMethods {
     }
     
 
+    /**
+     * Ensures the options window is shown while this state is active.
+     */
     @Override
     public void update() {
         showOptionsWindow();

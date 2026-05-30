@@ -10,6 +10,11 @@ import java.awt.event.MouseMotionListener;
 
 import static gamestate.Gamestate.PLAYING;
 
+/**
+ * Routes mouse input to the active state.
+ *
+ * @author Marek
+ */
 public class MouseInputs implements MouseListener, MouseMotionListener {
     private GamePanel gamePanel;
 
@@ -17,6 +22,9 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
         this.gamePanel = gamePanel;
     }
 
+    /**
+     * Routes mouse click events to the active state.
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         switch (Gamestate.state) {
@@ -29,6 +37,9 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
         }
     }
 
+    /**
+     * Routes mouse press events to the active state.
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         switch (Gamestate.state) {
@@ -44,6 +55,9 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
         }
     }
 
+    /**
+     * Routes mouse release events to the active state.
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         switch (Gamestate.state) {
@@ -74,6 +88,9 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
     }
 
+    /**
+     * Routes mouse move events to the active state.
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         //gamePanel.setRectPos(e.getX(),e.getY());

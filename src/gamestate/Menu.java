@@ -10,6 +10,11 @@ import java.awt.event.MouseEvent;
 import static game.Game.GAME_WIDTH;
 import static game.Game.SCALE;
 
+/**
+ * Main menu state and button handling.
+ *
+ * @author Marek
+ */
 public class Menu extends State implements StateMethods {
 
     private MenuButton[] buttons = new MenuButton[3];
@@ -20,6 +25,9 @@ public class Menu extends State implements StateMethods {
         loadButtons();
     }
 
+    /**
+     * Creates the menu buttons.
+     */
     private void loadButtons() {
         buttons[0] = new MenuButton(GAME_WIDTH / 2, (int) (150 * SCALE), 0, Gamestate.PLAYING);
         buttons[1] = new MenuButton(GAME_WIDTH / 2, (int) (220 * SCALE), 1, Gamestate.OPTIONS);
@@ -27,6 +35,9 @@ public class Menu extends State implements StateMethods {
 
     }
 
+    /**
+     * Updates button hover and pressed state.
+     */
     @Override
     public void update() {
         for (MenuButton mb : buttons) {
@@ -34,6 +45,9 @@ public class Menu extends State implements StateMethods {
         }
     }
 
+    /**
+     * Draws all menu buttons.
+     */
     @Override
     public void draw(Graphics g) {
         for (MenuButton mb : buttons)
@@ -46,6 +60,9 @@ public class Menu extends State implements StateMethods {
 
     }
 
+    /**
+     * Marks the hovered button as pressed.
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         for (MenuButton mb : buttons) {
@@ -56,11 +73,17 @@ public class Menu extends State implements StateMethods {
 
     }
 
+    /**
+     * Clears all button interaction flags.
+     */
     private void resetButtons() {
         for (MenuButton mb : buttons)
             mb.resetBools();
     }
 
+    /**
+     * Applies the selected menu action on mouse release.
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         for (MenuButton mb : buttons) {
@@ -76,6 +99,9 @@ public class Menu extends State implements StateMethods {
         resetButtons();
     }
 
+    /**
+     * Updates hover state for the button under the mouse.
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         for (MenuButton mb : buttons)
@@ -90,6 +116,9 @@ public class Menu extends State implements StateMethods {
 
     }
 
+    /**
+     * Starts the game when Enter is pressed.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {

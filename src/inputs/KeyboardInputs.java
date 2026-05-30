@@ -6,6 +6,11 @@ import gamestate.Gamestate;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Routes keyboard input to the active state.
+ *
+ * @author Marek
+ */
 public class KeyboardInputs implements KeyListener {
     private GamePanel gamePanel;
     public KeyboardInputs(GamePanel gamePanel) {
@@ -19,6 +24,9 @@ public class KeyboardInputs implements KeyListener {
 
     }
 
+    /**
+     * Routes key press events to the active state.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         switch (Gamestate.state) {
@@ -34,6 +42,9 @@ public class KeyboardInputs implements KeyListener {
 
     }
 
+    /**
+     * Routes key release events to the active state.
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         switch (Gamestate.state) {

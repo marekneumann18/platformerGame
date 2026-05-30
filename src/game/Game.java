@@ -7,9 +7,13 @@ import player.Player;
 import utilz.LoadSave;
 
 import java.awt.*;
-import java.util.Timer;
 
 
+/**
+ * Main game class that manages the loop, rendering, and state transitions.
+ *
+ * @author Marek
+ */
 public class Game implements Runnable {
     private Thread gameThread;
     private int FPS_SET = 120;
@@ -31,7 +35,7 @@ public class Game implements Runnable {
     private Menu menu;
     private Playing playing;
     private Options options;
-    private WictoryWindow wictoryWindow;
+    private VictoryWindow wictoryWindow;
 
 
     public Game() {
@@ -42,15 +46,21 @@ public class Game implements Runnable {
         startLoop();
     }
 
+    /**
+     * Initializes all game states and loads configuration.
+     */
     public void init() {
         menu = new Menu(this);
         playing = new Playing(this);
         options = new Options(this);
-        wictoryWindow = new WictoryWindow(this);
+        wictoryWindow = new VictoryWindow(this);
         LoadSave.loadConfig(this);
 
     }
 
+    /**
+     * Starts the main game thread.
+     */
     public void startLoop() {
         gameThread = new Thread(this);
         running = true;
@@ -58,6 +68,9 @@ public class Game implements Runnable {
 
     }
 
+    /**
+     * Runs the fixed update and render loop.
+     */
     @Override
     public void run() {
         long previopusTime = System.nanoTime();
@@ -97,18 +110,10 @@ public class Game implements Runnable {
 
     }
 
-    public Player getPlayer() {
-        return player;
-    }
 
-    public void setRunning(boolean running) {
-        this.running = running;
-    }
-
-    public boolean isRunning() {
-        return running;
-    }
-
+    /**
+     * Updates the active game state.
+     */
     public void update() {
         switch (Gamestate.state) {
             case PLAYING -> {
@@ -135,6 +140,9 @@ public class Game implements Runnable {
     }
 
 
+    /**
+     * Renders the active game state.
+     */
     public void render(Graphics g) {
         switch (Gamestate.state) {
             case PLAYING -> {
@@ -180,6 +188,9 @@ public class Game implements Runnable {
         return playing;
     }
 
+    /**
+     * Resets the playing state and returns to the menu.
+     */
     public void restartGame() {
         playing.resetGame();
         wictoryWindow.reset();

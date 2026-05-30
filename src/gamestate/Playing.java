@@ -11,6 +11,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+/**
+ * Active gameplay state.
+ *
+ * @author Marek
+ */
 public class Playing extends State implements StateMethods {
     private Player player;
     private LevelManager levelManager;
@@ -28,6 +33,9 @@ public class Playing extends State implements StateMethods {
         init();
     }
 
+    /**
+     * Initializes the player and level for a new run.
+     */
     public void init() {
         player = new Player(400, Game.WORLD_HEIGHT - 2 * Game.TILES_DEFAULT_SIZE * Game.SCALE, 50, 50);
         levelManager = new LevelManager();
@@ -40,16 +48,17 @@ public class Playing extends State implements StateMethods {
         return player;
     }
 
+    /**
+     * Creates the timer that updates the on-screen play time.
+     */
     public void setTimer(Game game) {
         timer = new Timer(1000, e -> {
             seconds++;
-            if (seconds==60){
+            if (seconds == 60) {
                 minutes++;
-                seconds=0;
+                seconds = 0;
             }
             timeLabel.setText(String.format("%02d:%02d", minutes, seconds));
-
-
 
 
         });
@@ -57,6 +66,13 @@ public class Playing extends State implements StateMethods {
 
     }
 
+    public int getTotalSeconds() {
+        return minutes * 60 + seconds;
+    }
+
+    /**
+     * Starts the play timer from zero.
+     */
     public void startTimer() {
         minutes = 0;
         seconds = 0;
@@ -64,10 +80,18 @@ public class Playing extends State implements StateMethods {
         timer.start();
     }
 
+    /**
+     * Stops the play timer.
+     */
     public void endTimer() {
         timer.stop();
     }
 
+
+
+    /**
+     * Resets the current run back to the starting state.
+     */
     public void resetGame() {
         endTimer();
         minutes = 0;
@@ -79,12 +103,18 @@ public class Playing extends State implements StateMethods {
     }
 
     @Override
+    /**
+     * Updates the active gameplay frame.
+     */
     public void update() {
         player.update(levelManager.getLevelData(), game);
         updateCamera();
     }
 
     @Override
+    /**
+     * Draws the level, player, and time label.
+     */
     public void draw(Graphics g) {
         levelManager.draw(g, yLvlOffset);
         player.render(g, yLvlOffset);
@@ -115,6 +145,9 @@ public class Playing extends State implements StateMethods {
     }
 
     @Override
+    /**
+     * Handles movement and jump input.
+     */
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
@@ -136,6 +169,9 @@ public class Playing extends State implements StateMethods {
     }
 
     @Override
+    /**
+     * Releases horizontal movement keys.
+     */
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
@@ -151,7 +187,8 @@ public class Playing extends State implements StateMethods {
     }
 
     /**
-     * made by AI
+     * Keeps the camera centered vertically on the player.
+     * by ai
      */
     private void updateCamera() {
         yLvlOffset = (int) (player.getY() - Game.GAME_HEIGHT / 2);

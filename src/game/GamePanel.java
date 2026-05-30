@@ -7,6 +7,11 @@ import player.Player;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Swing panel that renders the game.
+ *
+ * @author Marek
+ */
 public class GamePanel extends JPanel {
 
     private Game game;
@@ -25,20 +30,20 @@ public class GamePanel extends JPanel {
         addMouseListener(mouseInputs);
         addMouseMotionListener(mouseInputs);
     }
+
+    /**
+     * Sets the preferred panel size to the game resolution.
+     */
     private void setPanelSize() {
         Dimension size = new Dimension(Game.GAME_WIDTH,Game.GAME_HEIGHT);
-
         setPreferredSize(size);
-
-
-
     }
+
+    /**
+     * Paints the current frame.
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-//        updateRectangle();
-//        g.setColor(color);
-//        g.fillRect((int) xDelta, (int) yDelta, 200, 50);
-//        repaint();
         game.render(g);
 
     }

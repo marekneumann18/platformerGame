@@ -9,6 +9,11 @@ import java.awt.image.BufferedImage;
 
 import static utilz.Constants.UI.Buttons.*;
 
+/**
+ * Reusable menu button component.
+ *
+ * @author Marek
+ */
 public class MenuButton {
     private int xPos, yPos, row, index;
     private Gamestate gamestate;
@@ -28,10 +33,16 @@ public class MenuButton {
         initBounds();
     }
 
+    /**
+     * Initializes the clickable button bounds.
+     */
     private void initBounds() {
         bounds = new Rectangle(xPos - xOffCenter, yPos, B_WIDTH, B_HEIGHT);
     }
 
+    /**
+     * Loads the button sprite sheet.
+     */
     private void loadImg() {
         images = new BufferedImage[3];
         BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.BUTTON_ATLAS);
@@ -42,11 +53,17 @@ public class MenuButton {
 
     }
 
+    /**
+     * Draws the button in its current visual state.
+     */
     public void draw(Graphics g) {
 
         g.drawImage(images[index], xPos - xOffCenter, yPos, B_WIDTH, B_HEIGHT, null);
     }
 
+    /**
+     * Updates the button image index based on hover and press state.
+     */
     public void update() {
         index = 0;
         if (mouseOver)
@@ -67,6 +84,9 @@ public class MenuButton {
         return mousePressed;
     }
 
+    /**
+     * Applies the associated game state.
+     */
     public void apllyGameState() {
         Gamestate.state = gamestate;
     }
@@ -79,6 +99,9 @@ public class MenuButton {
         this.mousePressed = mousePressed;
     }
 
+    /**
+     * Resets mouse interaction flags.
+     */
     public void resetBools() {
         mousePressed = false;
         mouseOver = false;
