@@ -25,7 +25,7 @@ public class VictoryWindow {
     /**
      * Shows the victory window once per completed run.
      */
-    public void showWictoryWindow() {
+    public void showVictoryWindow() {
         if (wasShown) {
             return;
         }
@@ -86,7 +86,7 @@ public class VictoryWindow {
      * Updates the victory UI when the game reaches the victory state.
      */
     public void update() {
-        showWictoryWindow();
+        showVictoryWindow();
     }
 
     /**
