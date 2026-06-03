@@ -127,8 +127,13 @@ public class Player {
 
             y = nextY;
 
-            if (y + height >= Game.WORLD_HEIGHT) {
+            if (y + height  >= Game.WORLD_HEIGHT) {
                 y = Game.WORLD_HEIGHT - height;
+                inAir = false;
+                velocityY = 0;
+            }
+            if (y <=0){
+                y = 0;
                 inAir = false;
                 velocityY = 0;
             }

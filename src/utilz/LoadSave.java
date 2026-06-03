@@ -154,7 +154,6 @@ public class LoadSave {
                 return;
             }
 
-            // Deserialize the config file.
             try (ObjectInputStream ois = new ObjectInputStream(
                     new FileInputStream(CONFIG_FILE))) {
                 GameConfig config = (GameConfig) ois.readObject();
@@ -178,10 +177,8 @@ public class LoadSave {
      * Serializable configuration holder for FPS and UPS values.
      * by ai
      *
-     * @author Marek
      */
     public static class GameConfig implements Serializable {
-        private static final long serialVersionUID = 1L;
 
         private final int fps;
         private final int ups;
